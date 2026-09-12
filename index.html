@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Argonauts Controls 101 Live Quiz!</title>
+<style>
+  :root {
+    --bg-red: #ff4757;
+    --bg-blue: #1e90ff;
+    --bg-gold: #ffa502;
+    --bg-teal: #2ed573;
+    --dark: #2f3542;
+    --paper: #f1f2f6;
+  }
+
+  * { box-sizing: border-box; font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif; }
+  
+  body {
+    background-color: var(--paper);
+    color: var(--dark);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .card {
+    background: white;
+    border: 4px solid var(--dark);
+    box-shadow: 6px 6px 0px var(--dark);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 800px;
+    width: 100%;
+    margin-bottom: 20px;
+    transform: rotate(-0.5deg);
+  }
+
+  h1, h2, h3 { text-align: center; margin-top: 0; }
+  
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--bg-gold);
+    border: 2px solid var(--dark);
+    font-weight: bold;
+    border-radius: 20px;
+    transform: rotate(2deg);
+  }
+
+  .mode-select {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+
+  button {
+    background: var(--bg-blue);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 14px 24px;
+    border: 3px solid var(--dark);
+    box-shadow: 4px 4px 0px var(--dark);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  button:hover { transform: translate(-2px, -2px); }
+  button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--dark); }
+
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .btn-opt-0 { background: var(--bg-red); }
+  .btn-opt-1 { background: var(--bg-blue); }
+  .btn-opt-2 { background: var(--bg-gold); color: var(--dark); }
+  .btn-opt-3 { background: var(--bg-teal); color: var(--dark); }
+
+  .timer-bar {
+    height: 16px;
+    background: #dfe4ea;
+    border: 2px solid var(--dark);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 15px 0;
+  }
+
+  .timer-fill {
+    height: 100%;
+    background: var(--bg-red);
+    width: 100%;
+    transition: width 1s linear;
+  }
+
+  .leaderboard-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid var(--dark);
+    border-radius: 6px;
+    background: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .leaderboard-item:nth-child(1) { background: #ffeaa7; transform: rotate(-1deg); }
+  .leaderboard-item:nth-child(2) { background: #dfe6e9; transform: rotate(1deg); }
+  .leaderboard-item:nth-child(3) { background: #fab1a0; transform: rotate(-0.5deg); }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border: 3px solid var(--dark);
+    border-radius: 6px;
+    margin-bottom: 15px;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>🐙 Argonauts Controls 101 Quiz! ⚡</h1>
+  <p style="text-align: center;">Strictly based on Team 8728 Fall Training Slides</p>
+
+  <!-- SELECT MODE -->
+  <div id="setup-view">
+    <h3>Choose screen role:</h3>
+    <div class="mode-select">
+      <button onclick="startHost()">📺 Main Display / Host Screen</button>
+      <button onclick="startPlayer()">📱 Player Device</button>
+    </div>
+  </div>
+
+  <!-- PLAYER JOIN VIEW -->
+  <div id="player-join-view" class="hidden">
+    <h3>Enter your Nickname:</h3>
+    <input type="text" id="player-name-input" placeholder="e.g. ArgonautCoder" maxlength="15">
+    <button style="width: 100%" onclick="joinGame()">Join Game!</button>
+  </div>
+
+  <!-- QUESTION VIEW (HOST & PLAYER) -->
+  <div id="question-view" class="hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <span class="badge" id="q-number">Question 1/7</span>
+      <span id="q-timer-text" style="font-weight:bold; font-size:1.2rem;">⏱️ 30s</span>
+    </div>
+
+    <div class="timer-bar"><div id="timer-fill" class="timer-fill"></div></div>
+
+    <h2 id="question-text" style="min-height: 60px; margin-top:15px;">Question text...</h2>
+
+    <div id="player-options" class="grid-2x2">
+      <!-- Dynamic Buttons -->
+    </div>
+
+    <div id="host-response-count" class="hidden" style="text-align:center; margin-top:20px; font-size:1.3rem;">
+      Submitted Answers: <strong id="submitted-count">0</strong>
+    </div>
+  </div>
+
+  <!-- ROUND LEADERBOARD / RESULTS VIEW -->
+  <div id="leaderboard-view" class="hidden">
+    <h2 id="round-title">🏆 Round Standings</h2>
+    <ol class="leaderboard-list" id="leaderboard-items"></ol>
+    <div id="host-controls" class="hidden" style="text-align:center; margin-top:20px;">
+      <button onclick="nextQuestion()">Next Question ➡️</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// --- QUESTION DATA STRICTLY FROM ARGONAUTS 101 SLIDES ---
+var QUESTIONS = [
+  {
+    q: "According to the slides, what primary role does the Controls subgroup act as for the robot?",
+    options: ["The physical chassis", "The brains of the robot", "The battery station", "The pit managers"],
+    answer: 1,
+    time: 30
+  },
+  {
+    q: "What programming language does Team 8728 use to write robot code?",
+    options: ["Python", "C++", "Java", "JavaScript"],
+    answer: 2,
+    time: 25
+  },
+  {
+    q: "What are code files that control motors individually or together to run mechanisms independent of the drivetrain called?",
+    options: ["Subsystems", "Repositories", "Pull Requests", "IDEs"],
+    answer: 0,
+    time: 30
+  },
+  {
+    q: "Which IDE (Integrated Development Environment) is highlighted as user-friendly for coding our robot?",
+    options: ["Eclipse", "Visual Studio Code", "Notepad++", "Android Studio"],
+    answer: 1,
+    time: 25
+  },
+  {
+    q: "What app can beginner students use as a helpful alternative for learning GitHub usage and pull requests?",
+    options: ["Git Bash", "GitHub Desktop", "Terminal", "VS Code Web"],
+    answer: 1,
+    time: 25
+  },
+  {
+    q: "In our previous climber mechanism, what were used as constants to dictate motor power at specific times?",
+    options: ["Swerve Files", "PWM Headers", "PIDs", "AprilTags"],
+    answer: 2,
+    time: 30
+  },
+  {
+    q: "How did our previous robot calculate the exact distance and angle needed to shoot from anywhere on the field?",
+    options: ["Manual driver estimates", "Using a camera to detect a code/tag on the scoring hub", "Ultrasonic sensor distance arrays", "Pre-set timer buttons"],
+    answer: 1,
+    time: 30
+  }
+];
+
+// --- STATE MANAGEMENT ---
+var mode = "";
+var currentQ = 0;
+var timerInterval = null;
+var timeLeft = 0;
+var players = {};
+var myId = "player_" + Math.floor(Math.random() * 100000);
+var myName = "";
+var channel = new BroadcastChannel('argonauts_controls_quiz');
+
+// --- BROADCAST HANDLER ---
+channel.onmessage = function(event) {
+  var msg = event.data;
+  
+  if (mode === 'host') {
+    if (msg.type === 'JOIN') {
+      if (!players[msg.id]) {
+        players[msg.id] = { name: msg.name, score: 0, answered: false };
+      }
+      updateSubmittedCount();
+    } else if (msg.type === 'ANSWER') {
+      if (players[msg.id] && !players[msg.id].answered) {
+        players[msg.id].answered = true;
+        if (msg.answerIdx === QUESTIONS[currentQ].answer) {
+          var points = 500 + Math.floor((msg.timeLeft / QUESTIONS[currentQ].time) * 500);
+          players[msg.id].score += points;
+        }
+        updateSubmittedCount();
+      }
+    }
+  } else if (mode === 'player') {
+    if (msg.type === 'SYNC_QUESTION') {
+      showPlayerQuestion(msg.qIndex, msg.timeLeft);
+    } else if (msg.type === 'SYNC_LEADERBOARD') {
+      showPlayerLeaderboard(msg.standings);
+    }
+  }
+};
+
+// --- HOST LOGIC ---
+function startHost() {
+  mode = 'host';
+  document.getElementById('setup-view').classList.add('hidden');
+  document.getElementById('question-view').classList.remove('hidden');
+  document.getElementById('host-response-count').classList.remove('hidden');
+  
+  // Demo bot for host preview
+  players['bot_1'] = { name: 'ArgoBot_8728', score: 0, answered: false };
+  
+  loadQuestion(0);
+}
+
+function loadQuestion(index) {
+  currentQ = index;
+  var q = QUESTIONS[currentQ];
+  
+  for (var id in players) {
+    players[id].answered = false;
+  }
+
+  document.getElementById('question-view').classList.remove('hidden');
+  document.getElementById('leaderboard-view').classList.add('hidden');
+  document.getElementById('q-number').textContent = "Question " + (currentQ + 1) + "/" + QUESTIONS.length;
+  document.getElementById('question-text').textContent = q.q;
+
+  var optsContainer = document.getElementById('player-options');
+  optsContainer.innerHTML = "";
+  for (var i = 0; i < q.options.length; i++) {
+    var div = document.createElement('div');
+    div.className = "button btn-opt-" + i;
+    div.style.cssText = "padding: 15px; border: 3px solid #2f3542; border-radius: 8px; font-weight: bold;";
+    div.textContent = q.options[i];
+    optsContainer.appendChild(div);
+  }
+
+  updateSubmittedCount();
+  startTimer(q.time);
+
+  channel.postMessage({ type: 'SYNC_QUESTION', qIndex: currentQ, timeLeft: q.time });
+}
+
+function startTimer(seconds) {
+  clearInterval(timerInterval);
+  timeLeft = seconds;
+  var total = seconds;
+
+  function updateDisplay() {
+    document.getElementById('q-timer-text').textContent = "⏱️ " + timeLeft + "s";
+    var pct = (timeLeft / total) * 100;
+    document.getElementById('timer-fill').style.width = pct + "%";
+  }
+
+  updateDisplay();
+
+  timerInterval = setInterval(function() {
+    timeLeft--;
+    
+    if (players['bot_1'] && !players['bot_1'].answered && timeLeft < seconds - 4) {
+      players['bot_1'].answered = true;
+      if (Math.random() > 0.2) {
+        players['bot_1'].score += 720;
+      }
+      updateSubmittedCount();
+    }
+
+    updateDisplay();
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      if (mode === 'host') {
+        showLeaderboard();
+      }
+    }
+  }, 1000);
+}
+
+function updateSubmittedCount() {
+  var count = 0;
+  var total = 0;
+  for (var id in players) {
+    total++;
+    if (players[id].answered) count++;
+  }
+  document.getElementById('submitted-count').textContent = count + " / " + total;
+}
+
+function showLeaderboard() {
+  document.getElementById('question-view').classList.add('hidden');
+  document.getElementById('leaderboard-view').classList.remove('hidden');
+  document.getElementById('host-controls').classList.remove('hidden');
+
+  var standings = [];
+  for (var id in players) {
+    standings.push(players[id]);
+  }
+  standings.sort(function(a, b) { return b.score - a.score; });
+
+  var list = document.getElementById('leaderboard-items');
+  list.innerHTML = "";
+  for (var i = 0; i < standings.length; i++) {
+    var li = document.createElement('li');
+    li.className = "leaderboard-item";
+    li.innerHTML = "<span>#" + (i + 1) + " " + standings[i].name + "</span><span>" + standings[i].score + " pts</span>";
+    list.appendChild(li);
+  }
+
+  if (currentQ >= QUESTIONS.length - 1) {
+    document.getElementById('round-title').textContent = "🎉 Training Complete! Final Winner:";
+    document.getElementById('host-controls').innerHTML = "<button onclick='location.reload()'>Restart Quiz 🔄</button>";
+  } else {
+    document.getElementById('round-title').textContent = "🏆 Round " + (currentQ + 1) + " Standings";
+  }
+
+  channel.postMessage({ type: 'SYNC_LEADERBOARD', standings: standings });
+}
+
+function nextQuestion() {
+  if (currentQ < QUESTIONS.length - 1) {
+    loadQuestion(currentQ + 1);
+  }
+}
+
+// --- PLAYER LOGIC ---
+function startPlayer() {
+  mode = 'player';
+  document.getElementById('setup-view').classList.add('hidden');
+  document.getElementById('player-join-view').classList.remove('hidden');
+}
+
+function joinGame() {
+  var nameInput = document.getElementById('player-name-input').value.trim();
+  myName = nameInput || ("Argonaut_" + Math.floor(Math.random() * 100));
+  
+  document.getElementById('player-join-view').classList.add('hidden');
+  document.getElementById('question-view').classList.remove('hidden');
+  document.getElementById('question-text').textContent = "Waiting for presentation host...";
+
+  channel.postMessage({ type: 'JOIN', id: myId, name: myName });
+}
+
+function showPlayerQuestion(qIndex, duration) {
+  currentQ = qIndex;
+  var q = QUESTIONS[currentQ];
+
+  document.getElementById('question-view').classList.remove('hidden');
+  document.getElementById('leaderboard-view').classList.add('hidden');
+  document.getElementById('q-number').textContent = "Question " + (currentQ + 1) + "/" + QUESTIONS.length;
+  document.getElementById('question-text').textContent = q.q;
+
+  var optsContainer = document.getElementById('player-options');
+  optsContainer.innerHTML = "";
+
+  for (var i = 0; i < q.options.length; i++) {
+    (function(idx) {
+      var btn = document.createElement('button');
+      btn.className = "btn-opt-" + idx;
+      btn.textContent = q.options[idx];
+      btn.onclick = function() {
+        submitAnswer(idx);
+      };
+      optsContainer.appendChild(btn);
+    })(i);
+  }
+
+  startTimer(duration);
+}
+
+function submitAnswer(optIdx) {
+  channel.postMessage({
+    type: 'ANSWER',
+    id: myId,
+    answerIdx: optIdx,
+    timeLeft: timeLeft
+  });
+
+  var optsContainer = document.getElementById('player-options');
+  optsContainer.innerHTML = "<h3 style='grid-column: span 2; text-align:center;'>Answer Submitted! Waiting for results... ⏳</h3>";
+}
+
+function showPlayerLeaderboard(standings) {
+  document.getElementById('question-view').classList.add('hidden');
+  document.getElementById('leaderboard-view').classList.remove('hidden');
+
+  var list = document.getElementById('leaderboard-items');
+  list.innerHTML = "";
+  for (var i = 0; i < standings.length; i++) {
+    var li = document.createElement('li');
+    li.className = "leaderboard-item";
+    li.innerHTML = "<span>#" + (i + 1) + " " + standings[i].name + "</span><span>" + standings[i].score + " pts</span>";
+    list.appendChild(li);
+  }
+}
+</script>
+</body>
+</html>
