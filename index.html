@@ -1,471 +1,822 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Argonauts Controls 101 Live Quiz!</title>
-<style>
-  :root {
-    --bg-red: #ff4757;
-    --bg-blue: #1e90ff;
-    --bg-gold: #ffa502;
-    --bg-teal: #2ed573;
-    --dark: #2f3542;
-    --paper: #f1f2f6;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Controls Quiz · Argonauts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff8e8;
+      --paper-2: #ffe9c2;
+      --ink: #1e2430;
+      --blue: #2b5fff;
+      --red: #e23d2a;
+      --green: #1f9a5c;
+      --yellow: #ffe566;
+      --pink: #ffb4c8;
+      --sky: #a8d4ff;
+    }
 
-  * { box-sizing: border-box; font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif; }
-  
-  body {
-    background-color: var(--paper);
-    color: var(--dark);
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-  }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .card {
-    background: white;
-    border: 4px solid var(--dark);
-    box-shadow: 6px 6px 0px var(--dark);
-    border-radius: 12px;
-    padding: 24px;
-    max-width: 800px;
-    width: 100%;
-    margin-bottom: 20px;
-    transform: rotate(-0.5deg);
-  }
+    body {
+      min-height: 100vh;
+      font-family: "Nunito", system-ui, sans-serif;
+      color: var(--ink);
+      background-color: #f3ead6;
+      background-image:
+        radial-gradient(circle at 12% 18%, #ffd6e0 0 70px, transparent 72px),
+        radial-gradient(circle at 88% 12%, #c9e7ff 0 90px, transparent 92px),
+        radial-gradient(circle at 80% 78%, #ffe56688 0 110px, transparent 112px),
+        radial-gradient(circle at 18% 82%, #b8f0c988 0 80px, transparent 82px),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 27px,
+          rgba(43, 95, 255, 0.06) 27px,
+          rgba(43, 95, 255, 0.06) 28px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 27px,
+          rgba(43, 95, 255, 0.05) 27px,
+          rgba(43, 95, 255, 0.05) 28px
+        );
+      overflow-x: hidden;
+    }
 
-  h1, h2, h3 { text-align: center; margin-top: 0; }
-  
-  .badge {
-    display: inline-block;
-    padding: 4px 12px;
-    background: var(--bg-gold);
-    border: 2px solid var(--dark);
-    font-weight: bold;
-    border-radius: 20px;
-    transform: rotate(2deg);
-  }
+    /* doodle scribbles in corners */
+    .doodle {
+      position: fixed;
+      pointer-events: none;
+      font-family: "Caveat", cursive;
+      color: var(--blue);
+      opacity: 0.45;
+      z-index: 0;
+      line-height: 1;
+      user-select: none;
+    }
+    .doodle.a { top: 4%; left: 3%; font-size: 2.4rem; transform: rotate(-12deg); }
+    .doodle.b { top: 8%; right: 4%; font-size: 1.8rem; transform: rotate(8deg); color: var(--red); }
+    .doodle.c { bottom: 6%; left: 5%; font-size: 2rem; transform: rotate(6deg); color: #1f9a5c; }
+    .doodle.d { bottom: 10%; right: 6%; font-size: 2.2rem; transform: rotate(-7deg); }
 
-  .mode-select {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin: 20px 0;
-  }
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 18px 16px 48px;
+      min-height: 100vh;
+    }
 
-  button {
-    background: var(--bg-blue);
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    padding: 14px 24px;
-    border: 3px solid var(--dark);
-    box-shadow: 4px 4px 0px var(--dark);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.1s;
-  }
+    /* tiny header — not a start page */
+    .mast {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .mast h1 {
+      font-family: "Caveat", cursive;
+      font-size: clamp(2rem, 7vw, 2.7rem);
+      font-weight: 700;
+      line-height: 1;
+      transform: rotate(-1.5deg);
+    }
+    .mast h1 em {
+      font-style: normal;
+      color: var(--blue);
+      border-bottom: 3px solid var(--yellow);
+    }
+    .mast .bits {
+      font-family: "Caveat", cursive;
+      font-size: 1.25rem;
+      color: #555;
+      transform: rotate(2deg);
+    }
 
-  button:hover { transform: translate(-2px, -2px); }
-  button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--dark); }
+    .hud {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
 
-  .grid-2x2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
-  }
+    .ticket {
+      background: var(--yellow);
+      border: 2.5px solid var(--ink);
+      border-radius: 4px 12px 4px 12px;
+      padding: 6px 12px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      box-shadow: 3px 3px 0 var(--ink);
+      transform: rotate(-2deg);
+    }
+    .ticket.streak {
+      background: var(--pink);
+      transform: rotate(1.5deg);
+    }
 
-  .btn-opt-0 { background: var(--bg-red); }
-  .btn-opt-1 { background: var(--bg-blue); }
-  .btn-opt-2 { background: var(--bg-gold); color: var(--dark); }
-  .btn-opt-3 { background: var(--bg-teal); color: var(--dark); }
+    .track {
+      flex: 1;
+      min-width: 120px;
+      height: 14px;
+      border: 2.5px solid var(--ink);
+      border-radius: 999px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .track > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--blue),
+        var(--blue) 6px,
+        #5a82ff 6px,
+        #5a82ff 12px
+      );
+      transition: width 0.35s ease;
+    }
 
-  .timer-bar {
-    height: 16px;
-    background: #dfe4ea;
-    border: 2px solid var(--dark);
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 15px 0;
-  }
+    /* question sheet — slightly crooked paper */
+    .sheet {
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      border-radius: 6px 18px 8px 14px;
+      padding: 22px 20px 20px;
+      box-shadow:
+        6px 6px 0 var(--ink),
+        inset 0 0 0 1px rgba(255,255,255,0.5);
+      position: relative;
+      transform: rotate(-0.4deg);
+      animation: plop 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+    }
+    .sheet::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 28%;
+      width: 90px;
+      height: 22px;
+      background: rgba(168, 212, 255, 0.75);
+      border: 2px solid var(--ink);
+      transform: rotate(-3deg);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+    }
+    .sheet.bump {
+      animation: bump 0.35s ease;
+    }
 
-  .timer-fill {
-    height: 100%;
-    background: var(--bg-red);
-    width: 100%;
-    transition: width 1s linear;
-  }
+    @keyframes plop {
+      from { opacity: 0; transform: rotate(2deg) translateY(18px) scale(0.97); }
+      to { opacity: 1; transform: rotate(-0.4deg) translateY(0) scale(1); }
+    }
+    @keyframes bump {
+      0% { transform: rotate(-0.4deg) scale(1); }
+      40% { transform: rotate(0.6deg) scale(1.015); }
+      100% { transform: rotate(-0.4deg) scale(1); }
+    }
 
-  .leaderboard-list {
-    list-style: none;
-    padding: 0;
-  }
+    .q-label {
+      font-family: "Caveat", cursive;
+      font-size: 1.35rem;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
 
-  .leaderboard-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px;
-    margin: 8px 0;
-    border: 2px solid var(--dark);
-    border-radius: 6px;
-    background: #fff;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
+    .q-text {
+      font-size: clamp(1.2rem, 3.6vw, 1.55rem);
+      font-weight: 900;
+      line-height: 1.28;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
 
-  .leaderboard-item:nth-child(1) { background: #ffeaa7; transform: rotate(-1deg); }
-  .leaderboard-item:nth-child(2) { background: #dfe6e9; transform: rotate(1deg); }
-  .leaderboard-item:nth-child(3) { background: #fab1a0; transform: rotate(-0.5deg); }
+    .q-aside {
+      font-family: "Caveat", cursive;
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 18px;
+      transform: rotate(-0.5deg);
+    }
 
-  input[type="text"] {
-    width: 100%;
-    padding: 12px;
-    font-size: 1.1rem;
-    border: 3px solid var(--dark);
-    border-radius: 6px;
-    margin-bottom: 15px;
-  }
+    .choices {
+      display: grid;
+      gap: 10px;
+    }
 
-  .hidden { display: none !important; }
-</style>
+    .choice {
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      background: #fff;
+      border: 2.5px solid var(--ink);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      box-shadow: 3px 3px 0 transparent;
+      transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+    }
+    .choice:nth-child(1) { transform: rotate(-0.6deg); }
+    .choice:nth-child(2) { transform: rotate(0.5deg); }
+    .choice:nth-child(3) { transform: rotate(-0.3deg); }
+    .choice:nth-child(4) { transform: rotate(0.7deg); }
+
+    .choice:hover:not(:disabled) {
+      box-shadow: 3px 3px 0 var(--ink);
+      background: var(--yellow);
+    }
+    .choice:nth-child(1):hover:not(:disabled) { transform: rotate(-0.6deg) translate(-2px, -2px); }
+    .choice:nth-child(2):hover:not(:disabled) { transform: rotate(0.5deg) translate(-2px, -2px); }
+    .choice:nth-child(3):hover:not(:disabled) { transform: rotate(-0.3deg) translate(-2px, -2px); }
+    .choice:nth-child(4):hover:not(:disabled) { transform: rotate(0.7deg) translate(-2px, -2px); }
+
+    .choice:disabled { cursor: default; }
+
+    .letter {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+      display: grid;
+      place-items: center;
+      font-family: "Caveat", cursive;
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: var(--sky);
+      line-height: 1;
+    }
+
+    .choice.yes {
+      background: #c8f5d8;
+      box-shadow: 3px 3px 0 var(--green);
+      animation: wiggle 0.4s ease;
+    }
+    .choice.yes .letter { background: var(--green); color: #fff; border-color: var(--ink); }
+    .choice.no {
+      background: #ffd0c8;
+      box-shadow: 3px 3px 0 var(--red);
+      animation: nope 0.35s ease;
+    }
+    .choice.no .letter { background: var(--red); color: #fff; }
+    .choice.fade { opacity: 0.35; }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-2deg) scale(1.02); }
+      75% { transform: rotate(2deg) scale(1.02); }
+    }
+    @keyframes nope {
+      0%, 100% { transform: translateX(0); }
+      30% { transform: translateX(-5px) rotate(-1deg); }
+      60% { transform: translateX(5px) rotate(1deg); }
+    }
+
+    /* sticky-note feedback */
+    .note {
+      display: none;
+      margin-top: 16px;
+      background: var(--yellow);
+      border: 2.5px solid var(--ink);
+      padding: 12px 14px;
+      font-family: "Caveat", cursive;
+      font-size: 1.35rem;
+      line-height: 1.3;
+      transform: rotate(1.2deg);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.18);
+      position: relative;
+    }
+    .note.show { display: block; animation: plop 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) both; }
+    .note.bad {
+      background: var(--pink);
+      transform: rotate(-1deg);
+    }
+    .note::after {
+      content: "✧";
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .go {
+      display: none;
+      margin-top: 14px;
+      justify-content: flex-end;
+    }
+    .go.show { display: flex; }
+
+    .btn {
+      appearance: none;
+      border: 2.5px solid var(--ink);
+      background: var(--blue);
+      color: #fff;
+      font-family: "Nunito", sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 var(--ink);
+      transform: rotate(1deg);
+    }
+    .btn:hover { background: #1a48d6; transform: rotate(1deg) translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+    .btn:active { transform: rotate(1deg) translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+    .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      box-shadow: none;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      border: none;
+      transform: none;
+    }
+    .btn.ghost:hover { background: transparent; box-shadow: none; transform: none; color: var(--blue); }
+
+    /* results — scrapbook page */
+    #results { display: none; }
+    #results.on { display: block; }
+    #quiz { display: block; }
+    #quiz.off { display: none; }
+
+    .scrap {
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      border-radius: 10px 6px 16px 8px;
+      padding: 28px 22px;
+      box-shadow: 7px 7px 0 var(--ink);
+      text-align: center;
+      position: relative;
+      transform: rotate(0.5deg);
+      animation: plop 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+    }
+    .scrap .stamp {
+      display: inline-block;
+      font-family: "Caveat", cursive;
+      font-size: 1.4rem;
+      border: 3px dashed var(--red);
+      color: var(--red);
+      padding: 2px 14px;
+      border-radius: 6px;
+      transform: rotate(-8deg);
+      margin-bottom: 8px;
+    }
+    .scrap .mega {
+      font-family: "Caveat", cursive;
+      font-size: clamp(4rem, 18vw, 6.5rem);
+      line-height: 0.9;
+      color: var(--blue);
+      margin: 4px 0;
+    }
+    .scrap h2 {
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .scrap .blurb {
+      font-family: "Caveat", cursive;
+      font-size: 1.35rem;
+      color: #444;
+      max-width: 28ch;
+      margin: 0 auto 20px;
+      line-height: 1.25;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .row span {
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      transform: rotate(-1deg);
+    }
+    .row span:nth-child(2) { transform: rotate(1.5deg); background: var(--yellow); }
+    .row span:nth-child(3) { transform: rotate(-0.8deg); background: var(--sky); }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .foot {
+      text-align: center;
+      margin-top: 18px;
+      font-family: "Caveat", cursive;
+      font-size: 1.15rem;
+      color: #777;
+      transform: rotate(-1deg);
+    }
+
+    @media (max-width: 480px) {
+      .sheet::before { left: 18%; width: 70px; }
+    }
+  </style>
 </head>
 <body>
+  <div class="doodle a" aria-hidden="true">⚡ zap</div>
+  <div class="doodle b" aria-hidden="true">beep beep</div>
+  <div class="doodle c" aria-hidden="true">✓ strapped??</div>
+  <div class="doodle d" aria-hidden="true">AprilTag ★</div>
 
-<div class="card">
-  <h1>🐙 Argonauts Controls 101 Quiz! ⚡</h1>
-  <p style="text-align: center;">Strictly based on Team 8728 Fall Training Slides</p>
+  <div class="wrap">
+    <header class="mast">
+      <h1>controls <em>quiz</em></h1>
+      <div class="bits">argonauts · no peeking</div>
+    </header>
 
-  <!-- SELECT MODE -->
-  <div id="setup-view">
-    <h3>Choose screen role:</h3>
-    <div class="mode-select">
-      <button onclick="startHost()">📺 Main Display / Host Screen</button>
-      <button onclick="startPlayer()">📱 Player Device</button>
+    <div id="quiz">
+      <div class="hud">
+        <div class="ticket" id="pts">0 pts</div>
+        <div class="ticket streak" id="streak">streak 0</div>
+        <div class="track" aria-hidden="true"><i id="bar"></i></div>
+      </div>
+
+      <div class="sheet" id="sheet">
+        <div class="q-label" id="qLabel">q 1 of 12</div>
+        <h2 class="q-text" id="qText"></h2>
+        <p class="q-aside" id="qAside"></p>
+        <div class="choices" id="choices"></div>
+        <div class="note" id="note"></div>
+        <div class="go" id="go">
+          <button class="btn" id="next" type="button">next one →</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="results">
+      <div class="scrap">
+        <div class="stamp" id="stamp">graded!!</div>
+        <div class="mega" id="final">0</div>
+        <h2 id="title">…</h2>
+        <p class="blurb" id="blurb"></p>
+        <div class="row">
+          <span id="s1">0 correct</span>
+          <span id="s2">best streak 0</span>
+          <span id="s3">0%</span>
+        </div>
+        <div class="actions">
+          <button class="btn" id="again" type="button">do it again ★</button>
+        </div>
+      </div>
+      <p class="foot">coding + electrical = controls (mechanical still matters :D)</p>
     </div>
   </div>
 
-  <!-- PLAYER JOIN VIEW -->
-  <div id="player-join-view" class="hidden">
-    <h3>Enter your Nickname:</h3>
-    <input type="text" id="player-name-input" placeholder="e.g. ArgonautCoder" maxlength="15">
-    <button style="width: 100%" onclick="joinGame()">Join Game!</button>
-  </div>
-
-  <!-- QUESTION VIEW (HOST & PLAYER) -->
-  <div id="question-view" class="hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <span class="badge" id="q-number">Question 1/7</span>
-      <span id="q-timer-text" style="font-weight:bold; font-size:1.2rem;">⏱️ 30s</span>
-    </div>
-
-    <div class="timer-bar"><div id="timer-fill" class="timer-fill"></div></div>
-
-    <h2 id="question-text" style="min-height: 60px; margin-top:15px;">Question text...</h2>
-
-    <div id="player-options" class="grid-2x2">
-      <!-- Dynamic Buttons -->
-    </div>
-
-    <div id="host-response-count" class="hidden" style="text-align:center; margin-top:20px; font-size:1.3rem;">
-      Submitted Answers: <strong id="submitted-count">0</strong>
-    </div>
-  </div>
-
-  <!-- ROUND LEADERBOARD / RESULTS VIEW -->
-  <div id="leaderboard-view" class="hidden">
-    <h2 id="round-title">🏆 Round Standings</h2>
-    <ol class="leaderboard-list" id="leaderboard-items"></ol>
-    <div id="host-controls" class="hidden" style="text-align:center; margin-top:20px;">
-      <button onclick="nextQuestion()">Next Question ➡️</button>
-    </div>
-  </div>
-</div>
-
-<script>
-// --- QUESTION DATA STRICTLY FROM ARGONAUTS 101 SLIDES ---
-var QUESTIONS = [
-  {
-    q: "According to the slides, what primary role does the Controls subgroup act as for the robot?",
-    options: ["The physical chassis", "The brains of the robot", "The battery station", "The pit managers"],
-    answer: 1,
-    time: 30
-  },
-  {
-    q: "What programming language does Team 8728 use to write robot code?",
-    options: ["Python", "C++", "Java", "JavaScript"],
-    answer: 2,
-    time: 25
-  },
-  {
-    q: "What are code files that control motors individually or together to run mechanisms independent of the drivetrain called?",
-    options: ["Subsystems", "Repositories", "Pull Requests", "IDEs"],
-    answer: 0,
-    time: 30
-  },
-  {
-    q: "Which IDE (Integrated Development Environment) is highlighted as user-friendly for coding our robot?",
-    options: ["Eclipse", "Visual Studio Code", "Notepad++", "Android Studio"],
-    answer: 1,
-    time: 25
-  },
-  {
-    q: "What app can beginner students use as a helpful alternative for learning GitHub usage and pull requests?",
-    options: ["Git Bash", "GitHub Desktop", "Terminal", "VS Code Web"],
-    answer: 1,
-    time: 25
-  },
-  {
-    q: "In our previous climber mechanism, what were used as constants to dictate motor power at specific times?",
-    options: ["Swerve Files", "PWM Headers", "PIDs", "AprilTags"],
-    answer: 2,
-    time: 30
-  },
-  {
-    q: "How did our previous robot calculate the exact distance and angle needed to shoot from anywhere on the field?",
-    options: ["Manual driver estimates", "Using a camera to detect a code/tag on the scoring hub", "Ultrasonic sensor distance arrays", "Pre-set timer buttons"],
-    answer: 1,
-    time: 30
-  }
-];
-
-// --- STATE MANAGEMENT ---
-var mode = "";
-var currentQ = 0;
-var timerInterval = null;
-var timeLeft = 0;
-var players = {};
-var myId = "player_" + Math.floor(Math.random() * 100000);
-var myName = "";
-var channel = new BroadcastChannel('argonauts_controls_quiz');
-
-// --- BROADCAST HANDLER ---
-channel.onmessage = function(event) {
-  var msg = event.data;
-  
-  if (mode === 'host') {
-    if (msg.type === 'JOIN') {
-      if (!players[msg.id]) {
-        players[msg.id] = { name: msg.name, score: 0, answered: false };
+  <script>
+    const QUESTIONS = [
+      {
+        q: "Controls owns which two things on the team?",
+        aside: "(hint: brains of the robot…)",
+        choices: [
+          "Coding and Electrical",
+          "Mechanical and Marketing",
+          "Strategy and Scouting only",
+          "Just the drivetrain"
+        ],
+        answer: 0,
+        tip: "Yep — coding (Java, vision, autos…) AND electrical (wiring, battery, motors)."
+      },
+      {
+        q: "What language is the robot code in?",
+        aside: "not a trick question. mostly.",
+        choices: ["Python", "C++", "Java", "Scratch"],
+        answer: 2,
+        tip: "Java!! With VS Code + WPILib."
+      },
+      {
+        q: "Which is NOT one of the four things everyone should solo?",
+        aside: "battery → connect → comms → Elastic",
+        choices: [
+          "Load the battery",
+          "Rewrite autonomous from scratch",
+          "Check Driver Station comms",
+          "Open Elastic"
+        ],
+        answer: 1,
+        tip: "Autos can wait. The four basics are battery, connect, comms, Elastic."
+      },
+      {
+        q: "What's a roboRIO, really?",
+        aside: "the little blue box of destiny",
+        choices: [
+          "A spare battery connector",
+          "The robot's main computer — runs code, talks to motors",
+          "A joystick mapping app",
+          "Our WiFi password"
+        ],
+        answer: 1,
+        tip: "Main computer. Sensors in, motor commands out."
+      },
+      {
+        q: "PDH stands for… and it does what?",
+        aside: "power stuff!!",
+        choices: [
+          "Pretty Darn Hub — stores GitHub repos",
+          "Power Distribution Hub — splits battery power onto breakers",
+          "Pixel Drawing Helper — AprilTag overlays",
+          "PID Helper Device — tunes gains for you"
+        ],
+        answer: 1,
+        tip: "Power Distribution Hub. Battery → breakers → everything that needs juice."
+      },
+      {
+        q: "What's fancy about Kraken motors?",
+        aside: "less spaghetti wiring energy",
+        choices: [
+          "They only work wirelessly",
+          "Motor controller is built in",
+          "They don't need power",
+          "Code can't set their speed"
+        ],
+        answer: 1,
+        tip: "Controller built in — tell 'em how fast or where to go."
+      },
+      {
+        q: "Battery first step from the slides?",
+        aside: "before you plug anything in…",
+        choices: [
+          "Open Elastic",
+          "Face up — text faces you",
+          "Yeet the breaker into the void",
+          "Connect WiFi first"
+        ],
+        answer: 1,
+        tip: "Face up → route leads nice → plug in → strap with velcro/belt."
+      },
+      {
+        q: "Tethered (ethernet) connection — laptop WiFi?",
+        aside: "don't let the networks fight",
+        choices: [
+          "Turn WiFi off",
+          "Also join guest WiFi for vibes",
+          "Airplane mode the robot",
+          "Leave WiFi on, it's fine"
+        ],
+        answer: 0,
+        tip: "Ethernet in, WiFi off. Radio needs ~2 min after boot btw."
+      },
+      {
+        q: "Comms look good when…",
+        aside: "Driver Station center indicators",
+        choices: [
+          "They're all fully green",
+          "RSL blinks purple forever",
+          "Elastic camera is blank",
+          "GitHub says synced"
+        ],
+        answer: 0,
+        tip: "All green in the middle. Joysticks: USB tab, mash buttons, watch 'em flash."
+      },
+      {
+        q: "Elastic is for…",
+        aside: "our dashboard buddy",
+        choices: [
+          "Writing Java files",
+          "Camera feeds + live sensor values",
+          "Ordering motors",
+          "Flashing PDH firmware"
+        ],
+        answer: 1,
+        tip: "Set Dashboard Type → Elastic in Driver Station, or open from WPILib in VS Code."
+      },
+      {
+        q: "Blank camera/value in Elastic — check what first?",
+        aside: "it can't invent data",
+        choices: [
+          "Your GitHub avatar",
+          "Comms (it only shows what the robot sends)",
+          "Whether the lights are on",
+          "Battery brand"
+        ],
+        answer: 1,
+        tip: "Comms first. Always."
+      },
+      {
+        q: "Robot.java is…",
+        aside: "subsystems hang out underneath",
+        choices: [
+          "A dusty unused template",
+          "The main file — overall behavior + calling subsystems",
+          "Only shooter config",
+          "The Driver Station installer"
+        ],
+        answer: 1,
+        tip: "Main file. Drivetrain, Shooter, Intake, Climber = subsystems."
+      },
+      {
+        q: "Write / store / talk-to-hardware trio?",
+        aside: "IDE · hosting · library",
+        choices: [
+          "VS Code · GitHub · WPILib",
+          "Word · Dropbox · Excel",
+          "Notion · Discord · Photoshop",
+          "Eclipse · MySQL · TensorFlow"
+        ],
+        answer: 0,
+        tip: "That's the stack. Beginners can use GitHub Desktop too."
+      },
+      {
+        q: "Why bother with GitHub?",
+        aside: "we like GitHub. (the slides said so)",
+        choices: [
+          "Memes only",
+          "Shared repo, history, less lost code, everyone in sync",
+          "It replaces the roboRIO",
+          "FRC bans local files"
+        ],
+        answer: 1,
+        tip: "One repo, undo-button history, laptop dies ≠ code dies."
+      },
+      {
+        q: "AprilTags help the robot know…",
+        aside: "those nerdy black & white squares",
+        choices: [
+          "Battery voltage",
+          "Where it is on the field (distance & angle to known tags)",
+          "Who's driving",
+          "Which git branch you're on"
+        ],
+        answer: 1,
+        tip: "See a tag → distance/angle → where am I?? (also: shoot on the move)"
       }
-      updateSubmittedCount();
-    } else if (msg.type === 'ANSWER') {
-      if (players[msg.id] && !players[msg.id].answered) {
-        players[msg.id].answered = true;
-        if (msg.answerIdx === QUESTIONS[currentQ].answer) {
-          var points = 500 + Math.floor((msg.timeLeft / QUESTIONS[currentQ].time) * 500);
-          players[msg.id].score += points;
-        }
-        updateSubmittedCount();
+    ];
+
+    const LETTERS = ["a", "b", "c", "d"];
+    let deck = [];
+    let i = 0;
+    let score = 0;
+    let streak = 0;
+    let best = 0;
+    let correct = 0;
+    let locked = false;
+
+    const $ = (id) => document.getElementById(id);
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let n = a.length - 1; n > 0; n--) {
+        const j = Math.floor(Math.random() * (n + 1));
+        [a[n], a[j]] = [a[j], a[n]];
       }
+      return a;
     }
-  } else if (mode === 'player') {
-    if (msg.type === 'SYNC_QUESTION') {
-      showPlayerQuestion(msg.qIndex, msg.timeLeft);
-    } else if (msg.type === 'SYNC_LEADERBOARD') {
-      showPlayerLeaderboard(msg.standings);
+
+    function start() {
+      deck = shuffle(QUESTIONS).slice(0, 12);
+      i = 0;
+      score = 0;
+      streak = 0;
+      best = 0;
+      correct = 0;
+      locked = false;
+      $("pts").textContent = "0 pts";
+      $("streak").textContent = "streak 0";
+      $("quiz").classList.remove("off");
+      $("results").classList.remove("on");
+      draw();
     }
-  }
-};
 
-// --- HOST LOGIC ---
-function startHost() {
-  mode = 'host';
-  document.getElementById('setup-view').classList.add('hidden');
-  document.getElementById('question-view').classList.remove('hidden');
-  document.getElementById('host-response-count').classList.remove('hidden');
-  
-  // Demo bot for host preview
-  players['bot_1'] = { name: 'ArgoBot_8728', score: 0, answered: false };
-  
-  loadQuestion(0);
-}
+    function draw() {
+      locked = false;
+      const item = deck[i];
+      const sheet = $("sheet");
+      sheet.classList.remove("bump");
+      void sheet.offsetWidth;
+      sheet.style.animation = "none";
+      void sheet.offsetWidth;
+      sheet.style.animation = "";
 
-function loadQuestion(index) {
-  currentQ = index;
-  var q = QUESTIONS[currentQ];
-  
-  for (var id in players) {
-    players[id].answered = false;
-  }
+      $("qLabel").textContent = `q ${i + 1} of ${deck.length}`;
+      $("qText").textContent = item.q;
+      $("qAside").textContent = item.aside;
+      $("bar").style.width = `${(i / deck.length) * 100}%`;
 
-  document.getElementById('question-view').classList.remove('hidden');
-  document.getElementById('leaderboard-view').classList.add('hidden');
-  document.getElementById('q-number').textContent = "Question " + (currentQ + 1) + "/" + QUESTIONS.length;
-  document.getElementById('question-text').textContent = q.q;
+      const note = $("note");
+      note.className = "note";
+      note.textContent = "";
+      $("go").classList.remove("show");
+      $("next").textContent = i === deck.length - 1 ? "grade me →" : "next one →";
 
-  var optsContainer = document.getElementById('player-options');
-  optsContainer.innerHTML = "";
-  for (var i = 0; i < q.options.length; i++) {
-    var div = document.createElement('div');
-    div.className = "button btn-opt-" + i;
-    div.style.cssText = "padding: 15px; border: 3px solid #2f3542; border-radius: 8px; font-weight: bold;";
-    div.textContent = q.options[i];
-    optsContainer.appendChild(div);
-  }
+      const box = $("choices");
+      box.innerHTML = "";
+      item.choices.forEach((text, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice";
+        btn.innerHTML = `<span class="letter">${LETTERS[idx]}</span><span>${text}</span>`;
+        btn.addEventListener("click", () => pick(idx, btn));
+        box.appendChild(btn);
+      });
+    }
 
-  updateSubmittedCount();
-  startTimer(q.time);
+    function pick(choice, btn) {
+      if (locked) return;
+      locked = true;
+      const item = deck[i];
+      const buttons = [...$("choices").querySelectorAll(".choice")];
+      buttons.forEach((b) => (b.disabled = true));
 
-  channel.postMessage({ type: 'SYNC_QUESTION', qIndex: currentQ, timeLeft: q.time });
-}
-
-function startTimer(seconds) {
-  clearInterval(timerInterval);
-  timeLeft = seconds;
-  var total = seconds;
-
-  function updateDisplay() {
-    document.getElementById('q-timer-text').textContent = "⏱️ " + timeLeft + "s";
-    var pct = (timeLeft / total) * 100;
-    document.getElementById('timer-fill').style.width = pct + "%";
-  }
-
-  updateDisplay();
-
-  timerInterval = setInterval(function() {
-    timeLeft--;
-    
-    if (players['bot_1'] && !players['bot_1'].answered && timeLeft < seconds - 4) {
-      players['bot_1'].answered = true;
-      if (Math.random() > 0.2) {
-        players['bot_1'].score += 720;
+      const note = $("note");
+      if (choice === item.answer) {
+        btn.classList.add("yes");
+        correct++;
+        streak++;
+        best = Math.max(best, streak);
+        const bonus = 100 + Math.min(streak - 1, 4) * 25;
+        score += bonus;
+        note.className = "note show";
+        note.textContent = `heck yeah (+${bonus}) — ${item.tip}`;
+      } else {
+        btn.classList.add("no");
+        buttons[item.answer].classList.add("yes");
+        buttons.forEach((b, n) => {
+          if (n !== item.answer && n !== choice) b.classList.add("fade");
+        });
+        streak = 0;
+        note.className = "note show bad";
+        note.textContent = `oop — ${item.tip}`;
       }
-      updateSubmittedCount();
+
+      $("pts").textContent = `${score} pts`;
+      $("streak").textContent = `streak ${streak}`;
+      $("bar").style.width = `${((i + 1) / deck.length) * 100}%`;
+      $("sheet").classList.add("bump");
+      $("go").classList.add("show");
     }
 
-    updateDisplay();
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      if (mode === 'host') {
-        showLeaderboard();
+    function next() {
+      if (i >= deck.length - 1) {
+        finish();
+        return;
       }
+      i++;
+      draw();
     }
-  }, 1000);
-}
 
-function updateSubmittedCount() {
-  var count = 0;
-  var total = 0;
-  for (var id in players) {
-    total++;
-    if (players[id].answered) count++;
-  }
-  document.getElementById('submitted-count').textContent = count + " / " + total;
-}
+    function finish() {
+      const pct = Math.round((correct / deck.length) * 100);
+      $("final").textContent = score;
+      $("s1").textContent = `${correct}/${deck.length} correct`;
+      $("s2").textContent = `best streak ${best}`;
+      $("s3").textContent = `${pct}%`;
 
-function showLeaderboard() {
-  document.getElementById('question-view').classList.add('hidden');
-  document.getElementById('leaderboard-view').classList.remove('hidden');
-  document.getElementById('host-controls').classList.remove('hidden');
+      let title, blurb, stamp;
+      if (pct === 100) {
+        title = "battery strapped legend";
+        blurb = "perfect. go green up those comms like you own the pit.";
+        stamp = "100% !!";
+      } else if (pct >= 80) {
+        title = "almost a senior mentor";
+        blurb = "super solid. skim the oopsies and you're set.";
+        stamp = "nice job";
+      } else if (pct >= 55) {
+        title = "still booting…";
+        blurb = "radio takes ~2 minutes. you might too. try again!!";
+        stamp = "keep going";
+      } else {
+        title = "comms… blinking?";
+        blurb = "flip back through the slides, then mash \"do it again.\"";
+        stamp = "retry time";
+      }
+      $("title").textContent = title;
+      $("blurb").textContent = blurb;
+      $("stamp").textContent = stamp;
 
-  var standings = [];
-  for (var id in players) {
-    standings.push(players[id]);
-  }
-  standings.sort(function(a, b) { return b.score - a.score; });
+      $("quiz").classList.add("off");
+      $("results").classList.add("on");
+    }
 
-  var list = document.getElementById('leaderboard-items');
-  list.innerHTML = "";
-  for (var i = 0; i < standings.length; i++) {
-    var li = document.createElement('li');
-    li.className = "leaderboard-item";
-    li.innerHTML = "<span>#" + (i + 1) + " " + standings[i].name + "</span><span>" + standings[i].score + " pts</span>";
-    list.appendChild(li);
-  }
-
-  if (currentQ >= QUESTIONS.length - 1) {
-    document.getElementById('round-title').textContent = "🎉 Training Complete! Final Winner:";
-    document.getElementById('host-controls').innerHTML = "<button onclick='location.reload()'>Restart Quiz 🔄</button>";
-  } else {
-    document.getElementById('round-title').textContent = "🏆 Round " + (currentQ + 1) + " Standings";
-  }
-
-  channel.postMessage({ type: 'SYNC_LEADERBOARD', standings: standings });
-}
-
-function nextQuestion() {
-  if (currentQ < QUESTIONS.length - 1) {
-    loadQuestion(currentQ + 1);
-  }
-}
-
-// --- PLAYER LOGIC ---
-function startPlayer() {
-  mode = 'player';
-  document.getElementById('setup-view').classList.add('hidden');
-  document.getElementById('player-join-view').classList.remove('hidden');
-}
-
-function joinGame() {
-  var nameInput = document.getElementById('player-name-input').value.trim();
-  myName = nameInput || ("Argonaut_" + Math.floor(Math.random() * 100));
-  
-  document.getElementById('player-join-view').classList.add('hidden');
-  document.getElementById('question-view').classList.remove('hidden');
-  document.getElementById('question-text').textContent = "Waiting for presentation host...";
-
-  channel.postMessage({ type: 'JOIN', id: myId, name: myName });
-}
-
-function showPlayerQuestion(qIndex, duration) {
-  currentQ = qIndex;
-  var q = QUESTIONS[currentQ];
-
-  document.getElementById('question-view').classList.remove('hidden');
-  document.getElementById('leaderboard-view').classList.add('hidden');
-  document.getElementById('q-number').textContent = "Question " + (currentQ + 1) + "/" + QUESTIONS.length;
-  document.getElementById('question-text').textContent = q.q;
-
-  var optsContainer = document.getElementById('player-options');
-  optsContainer.innerHTML = "";
-
-  for (var i = 0; i < q.options.length; i++) {
-    (function(idx) {
-      var btn = document.createElement('button');
-      btn.className = "btn-opt-" + idx;
-      btn.textContent = q.options[idx];
-      btn.onclick = function() {
-        submitAnswer(idx);
-      };
-      optsContainer.appendChild(btn);
-    })(i);
-  }
-
-  startTimer(duration);
-}
-
-function submitAnswer(optIdx) {
-  channel.postMessage({
-    type: 'ANSWER',
-    id: myId,
-    answerIdx: optIdx,
-    timeLeft: timeLeft
-  });
-
-  var optsContainer = document.getElementById('player-options');
-  optsContainer.innerHTML = "<h3 style='grid-column: span 2; text-align:center;'>Answer Submitted! Waiting for results... ⏳</h3>";
-}
-
-function showPlayerLeaderboard(standings) {
-  document.getElementById('question-view').classList.add('hidden');
-  document.getElementById('leaderboard-view').classList.remove('hidden');
-
-  var list = document.getElementById('leaderboard-items');
-  list.innerHTML = "";
-  for (var i = 0; i < standings.length; i++) {
-    var li = document.createElement('li');
-    li.className = "leaderboard-item";
-    li.innerHTML = "<span>#" + (i + 1) + " " + standings[i].name + "</span><span>" + standings[i].score + " pts</span>";
-    list.appendChild(li);
-  }
-}
-</script>
+    $("next").addEventListener("click", next);
+    $("again").addEventListener("click", start);
+    start();
+  </script>
 </body>
 </html>
