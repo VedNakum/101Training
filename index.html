@@ -441,10 +441,10 @@
   </style>
 </head>
 <body>
-  <div class="doodle a" aria-hidden="true">⚡ zap</div>
-  <div class="doodle b" aria-hidden="true">beep beep</div>
-  <div class="doodle c" aria-hidden="true">✓ strapped??</div>
-  <div class="doodle d" aria-hidden="true">AprilTag ★</div>
+  <div class="doodle a" aria-hidden="true">roboRIO</div>
+  <div class="doodle b" aria-hidden="true">comms?</div>
+  <div class="doodle c" aria-hidden="true">velcro !!</div>
+  <div class="doodle d" aria-hidden="true">AprilTag</div>
 
   <div class="wrap">
     <header class="mast">
@@ -486,186 +486,295 @@
           <button class="btn" id="again" type="button">do it again ★</button>
         </div>
       </div>
-      <p class="foot">coding + electrical = controls (mechanical still matters :D)</p>
+      <p class="foot">Without Controls the robot would be useless (mechanical still matters :D)</p>
     </div>
   </div>
 
   <script>
+    // Every fact below is taken from the Controls 101 slides only.
     const QUESTIONS = [
       {
-        q: "Controls owns which two things on the team?",
-        aside: "(hint: brains of the robot…)",
+        q: "What is Controls on our team?",
+        aside: "from the slides",
+        choices: [
+          "Controls is the brains of the robot",
+          "Controls only builds the frame",
+          "Controls only does scouting",
+          "Controls only designs stickers"
+        ],
+        answer: 0,
+        tip: "Controls is the brains of the robot. On our team, Controls owns two things: Coding and Electrical."
+      },
+      {
+        q: "On our team, Controls owns two things. What are they?",
+        aside: "",
         choices: [
           "Coding and Electrical",
-          "Mechanical and Marketing",
-          "Strategy and Scouting only",
-          "Just the drivetrain"
+          "Mechanical and Design",
+          "Strategy and Media",
+          "Scouting and Awards"
         ],
         answer: 0,
-        tip: "Yep — coding (Java, vision, autos…) AND electrical (wiring, battery, motors)."
+        tip: "Coding and Electrical."
       },
       {
-        q: "What language is the robot code in?",
-        aside: "not a trick question. mostly.",
-        choices: ["Python", "C++", "Java", "Scratch"],
+        q: "All of the robot’s code is written in…",
+        aside: "",
+        choices: ["Python", "C++", "Java", "JavaScript"],
         answer: 2,
-        tip: "Java!! With VS Code + WPILib."
+        tip: "All of the robot’s code, written in Java."
       },
       {
-        q: "Which is NOT one of the four things everyone should solo?",
-        aside: "battery → connect → comms → Elastic",
+        q: "Which of these is listed under Coding on the slides?",
+        aside: "",
         choices: [
-          "Load the battery",
-          "Rewrite autonomous from scratch",
-          "Check Driver Station comms",
-          "Open Elastic"
-        ],
-        answer: 1,
-        tip: "Autos can wait. The four basics are battery, connect, comms, Elastic."
-      },
-      {
-        q: "What's a roboRIO, really?",
-        aside: "the little blue box of destiny",
-        choices: [
-          "A spare battery connector",
-          "The robot's main computer — runs code, talks to motors",
-          "A joystick mapping app",
-          "Our WiFi password"
-        ],
-        answer: 1,
-        tip: "Main computer. Sensors in, motor commands out."
-      },
-      {
-        q: "PDH stands for… and it does what?",
-        aside: "power stuff!!",
-        choices: [
-          "Pretty Darn Hub — stores GitHub repos",
-          "Power Distribution Hub — splits battery power onto breakers",
-          "Pixel Drawing Helper — AprilTag overlays",
-          "PID Helper Device — tunes gains for you"
-        ],
-        answer: 1,
-        tip: "Power Distribution Hub. Battery → breakers → everything that needs juice."
-      },
-      {
-        q: "What's fancy about Kraken motors?",
-        aside: "less spaghetti wiring energy",
-        choices: [
-          "They only work wirelessly",
-          "Motor controller is built in",
-          "They don't need power",
-          "Code can't set their speed"
-        ],
-        answer: 1,
-        tip: "Controller built in — tell 'em how fast or where to go."
-      },
-      {
-        q: "Battery first step from the slides?",
-        aside: "before you plug anything in…",
-        choices: [
-          "Open Elastic",
-          "Face up — text faces you",
-          "Yeet the breaker into the void",
-          "Connect WiFi first"
-        ],
-        answer: 1,
-        tip: "Face up → route leads nice → plug in → strap with velcro/belt."
-      },
-      {
-        q: "Tethered (ethernet) connection — laptop WiFi?",
-        aside: "don't let the networks fight",
-        choices: [
-          "Turn WiFi off",
-          "Also join guest WiFi for vibes",
-          "Airplane mode the robot",
-          "Leave WiFi on, it's fine"
+          "Vision with cameras and AprilTags",
+          "Battery, breakers and power distribution",
+          "All of the robot’s wiring",
+          "Keeping the robot powered at competition"
         ],
         answer: 0,
-        tip: "Ethernet in, WiFi off. Radio needs ~2 min after boot btw."
+        tip: "Coding includes: all robot code in Java; driving, autonomous routines and every mechanism; vision with cameras and AprilTags; testing and tuning on the real robot."
       },
       {
-        q: "Comms look good when…",
-        aside: "Driver Station center indicators",
+        q: "Which of these is listed under Electrical on the slides?",
+        aside: "",
         choices: [
-          "They're all fully green",
-          "RSL blinks purple forever",
-          "Elastic camera is blank",
-          "GitHub says synced"
+          "Battery, breakers and power distribution",
+          "Autonomous routines",
+          "Vision with AprilTags",
+          "Writing Java in VS Code"
         ],
         answer: 0,
-        tip: "All green in the middle. Joysticks: USB tab, mash buttons, watch 'em flash."
+        tip: "Electrical includes: all wiring; battery, breakers and power distribution; motors, sensors and cameras; keeping the robot connected and powered at competition."
       },
       {
-        q: "Elastic is for…",
-        aside: "our dashboard buddy",
+        q: "Everyone on the team needs to be able to do these four things on their own. Which set is correct?",
+        aside: "",
         choices: [
-          "Writing Java files",
-          "Camera feeds + live sensor values",
-          "Ordering motors",
-          "Flashing PDH firmware"
-        ],
-        answer: 1,
-        tip: "Set Dashboard Type → Elastic in Driver Station, or open from WPILib in VS Code."
-      },
-      {
-        q: "Blank camera/value in Elastic — check what first?",
-        aside: "it can't invent data",
-        choices: [
-          "Your GitHub avatar",
-          "Comms (it only shows what the robot sends)",
-          "Whether the lights are on",
-          "Battery brand"
-        ],
-        answer: 1,
-        tip: "Comms first. Always."
-      },
-      {
-        q: "Robot.java is…",
-        aside: "subsystems hang out underneath",
-        choices: [
-          "A dusty unused template",
-          "The main file — overall behavior + calling subsystems",
-          "Only shooter config",
-          "The Driver Station installer"
-        ],
-        answer: 1,
-        tip: "Main file. Drivetrain, Shooter, Intake, Climber = subsystems."
-      },
-      {
-        q: "Write / store / talk-to-hardware trio?",
-        aside: "IDE · hosting · library",
-        choices: [
-          "VS Code · GitHub · WPILib",
-          "Word · Dropbox · Excel",
-          "Notion · Discord · Photoshop",
-          "Eclipse · MySQL · TensorFlow"
+          "Load the battery, connect to the robot, check comms, open Elastic",
+          "Write Robot.java, deploy code, tune PID, push to GitHub",
+          "Wire the PDH, flash the radio, build a subsystem, scout matches",
+          "Open VS Code, clone the repo, run simulation, order motors"
         ],
         answer: 0,
-        tip: "That's the stack. Beginners can use GitHub Desktop too."
+        tip: "1 Load the battery  2 Connect to the robot  3 Check comms  4 Open Elastic"
       },
       {
-        q: "Why bother with GitHub?",
-        aside: "we like GitHub. (the slides said so)",
+        q: "What is the roboRIO?",
+        aside: "",
         choices: [
-          "Memes only",
-          "Shared repo, history, less lost code, everyone in sync",
-          "It replaces the roboRIO",
-          "FRC bans local files"
+          "The robot’s main computer. It runs our code, reads the sensors and sends commands to every motor.",
+          "The Power Distribution Hub that splits battery power onto breakers.",
+          "Our motors with a motor controller built in.",
+          "The Driver Station app on the laptop."
         ],
-        answer: 1,
-        tip: "One repo, undo-button history, laptop dies ≠ code dies."
+        answer: 0,
+        tip: "roboRIO — the robot’s main computer. It runs our code, reads the sensors and sends commands to every motor."
       },
       {
-        q: "AprilTags help the robot know…",
-        aside: "those nerdy black & white squares",
+        q: "What is the PDH?",
+        aside: "",
         choices: [
-          "Battery voltage",
-          "Where it is on the field (distance & angle to known tags)",
-          "Who's driving",
-          "Which git branch you're on"
+          "Power Distribution Hub. Takes power from the battery and splits it out to every motor and device, each on its own breaker.",
+          "The robot’s main computer that runs our code.",
+          "A black and white square marker on the field.",
+          "The IDE where you write the robot’s files."
         ],
-        answer: 1,
-        tip: "See a tag → distance/angle → where am I?? (also: shoot on the move)"
+        answer: 0,
+        tip: "PDH = Power Distribution Hub. Takes power from the battery and splits it out to every motor and device, each on its own breaker."
+      },
+      {
+        q: "What are Krakens on our robot?",
+        aside: "",
+        choices: [
+          "Our motors. Each one has a motor controller built in, so code can tell it how fast to spin or where to go.",
+          "Our cameras for AprilTags.",
+          "Our battery connectors.",
+          "Our WiFi radios."
+        ],
+        answer: 0,
+        tip: "Kraken — our motors. Each one has a motor controller built in, so code can tell it how fast to spin or where to go."
+      },
+      {
+        q: "How do you put the battery in the robot? First…",
+        aside: "",
+        choices: [
+          "Make sure the battery you are holding is face up (the text faces you).",
+          "Open Elastic.",
+          "Connect the laptop to the robot WiFi network.",
+          "Set Dashboard Type to Elastic."
+        ],
+        answer: 0,
+        tip: "First, make sure the battery is face up (the text faces you). Then place it so the lead wires route without sharp bends. Lastly, plug it into the robot’s main connector and strap it down using the velcro or belt."
+      },
+      {
+        q: "Before connecting to the Driver Station, first make sure…",
+        aside: "",
+        choices: [
+          "The robot is on and the main circuit breaker switch is pushed in.",
+          "Elastic is already open.",
+          "You have pushed code to GitHub.",
+          "The USB tab is flashing."
+        ],
+        answer: 0,
+        tip: "First, make sure the robot is on and the main circuit breaker switch is pushed in."
+      },
+      {
+        q: "For a tethered (ethernet) connection, you should…",
+        aside: "",
+        choices: [
+          "Plug an ethernet cable from the laptop into the robot ethernet port and turn the laptop’s WiFi off.",
+          "Connect the laptop to the robot WiFi network.",
+          "Leave the laptop WiFi on while using ethernet.",
+          "Only open Elastic — no cable needed."
+        ],
+        answer: 0,
+        tip: "Tethered (ethernet): plug an ethernet cable from the laptop into the robot ethernet port and turn the laptop’s WiFi off. Wireless (WiFi): connect the laptop to the robot WiFi network."
+      },
+      {
+        q: "After turning the robot on, how long should you give it before it connects?",
+        aside: "",
+        choices: [
+          "About 2 minutes — the radio takes the longest to boot.",
+          "About 10 seconds.",
+          "About 30 minutes.",
+          "It connects instantly every time."
+        ],
+        answer: 0,
+        tip: "Give the robot about 2 minutes after turning it on before it connects. The radio takes the longest to boot. Then open the Driver Station app on the laptop."
+      },
+      {
+        q: "To check comms on the Driver Station…",
+        aside: "",
+        choices: [
+          "Find the indicators in the center and make sure they are all fully green.",
+          "Open GitHub Desktop.",
+          "Only look at the RSL document.",
+          "Check that Elastic’s layout file is missing."
+        ],
+        answer: 0,
+        tip: "Find the indicators in the center of the Driver Station and make sure they are all fully green."
+      },
+      {
+        q: "To check joysticks on the Driver Station…",
+        aside: "",
+        choices: [
+          "Find the USB tab on the left and press buttons on the joysticks. The matching items should flash.",
+          "Open the WPILib Command Palette.",
+          "Look only at the center indicators.",
+          "Load the team layout in Elastic."
+        ],
+        answer: 0,
+        tip: "Find the USB tab on the left and press buttons on the joysticks. The matching items should flash."
+      },
+      {
+        q: "What is Elastic?",
+        aside: "",
+        choices: [
+          "Our dashboard. It shows camera feeds and live sensor values from the robot while it runs.",
+          "The IDE where you write the robot’s files.",
+          "Where the files are stored in a repository.",
+          "The library our code uses to talk to FRC hardware."
+        ],
+        answer: 0,
+        tip: "Elastic is our dashboard. It shows camera feeds and live sensor values from the robot while it runs."
+      },
+      {
+        q: "How do you open Elastic?",
+        aside: "",
+        choices: [
+          "Set Dashboard Type to Elastic in the Driver Station Setup tab (or open it from the WPILib Command Palette in VS Code).",
+          "Only by plugging in the battery.",
+          "Only from GitHub Desktop.",
+          "It opens when the radio boots."
+        ],
+        answer: 0,
+        tip: "Set Dashboard Type to Elastic in the Driver Station Setup tab so it launches with the Driver Station. You can also open it from the WPILib Command Palette in VS Code."
+      },
+      {
+        q: "If a camera or value is blank in Elastic…",
+        aside: "",
+        choices: [
+          "Check comms first. Elastic can only show what the robot is sending.",
+          "Rewrite Robot.java.",
+          "Turn the laptop’s WiFi on while tethered.",
+          "Ignore it — Elastic invents values."
+        ],
+        answer: 0,
+        tip: "If a camera or value is blank, check comms first. Elastic can only show what the robot is sending."
+      },
+      {
+        q: "How is robot code organized?",
+        aside: "",
+        choices: [
+          "Split into subsystems — files that each control one part of the robot. Robot.java is the main file.",
+          "One single file with no subsystems.",
+          "Only in GitHub Desktop with no Java files.",
+          "Only inside Elastic layouts."
+        ],
+        answer: 0,
+        tip: "Robot code is split into subsystems: files that each control one part of the robot, like the shooter or the climber. The drivetrain (our swerve base) is just another subsystem. Robot.java is the main file — it defines the robot’s overall behavior and is where the subsystems get called on to actually do things."
+      },
+      {
+        q: "What apps do you need/use? Match the slide:",
+        aside: "",
+        choices: [
+          "VS Code (IDE), GitHub (repository), WPILib (library for FRC hardware)",
+          "Word, Dropbox, Excel",
+          "Elastic only",
+          "Driver Station only"
+        ],
+        answer: 0,
+        tip: "VS Code — the IDE where you write the robot’s files. GitHub — where the files are stored in a repository (beginners can use GitHub Desktop). WPILib — the library our code uses to talk to FRC hardware like motors, sensors and the Driver Station."
+      },
+      {
+        q: "What is GitHub?",
+        aside: "",
+        choices: [
+          "A web-based platform that we use to store, share and collaborate on code.",
+          "The robot’s main computer.",
+          "Our dashboard for camera feeds.",
+          "The Power Distribution Hub."
+        ],
+        answer: 0,
+        tip: "GitHub is a web-based platform that we use to store, share and collaborate on code. Our repositories live on this website. Controls members are required to use GitHub to save the changes they make to code."
+      },
+      {
+        q: "Why do we even use GitHub?",
+        aside: "",
+        choices: [
+          "So everyone’s laptops work from one shared repository; every change is saved in a history; code doesn’t get lost.",
+          "It replaces the roboRIO at competition.",
+          "It turns the laptop’s WiFi off.",
+          "It straps the battery down."
+        ],
+        answer: 0,
+        tip: "Everyone’s laptops work from one shared repository. Every change is saved in a history, so if something breaks we can go back to a version that worked. Code doesn’t get lost when a laptop dies or someone forgets to save, and everyone’s code fits together properly. We like GitHub."
+      },
+      {
+        q: "What is PID control, according to the slides?",
+        aside: "",
+        choices: [
+          "It lets a motor move a mechanism to a certain position and hold it there, or spin at a certain speed.",
+          "It is the Power Distribution Hub.",
+          "It is how you check joystick buttons on the USB tab.",
+          "It is the robot WiFi network name."
+        ],
+        answer: 0,
+        tip: "PID control lets a motor move a mechanism to a certain position and hold it there, or spin at a certain speed."
+      },
+      {
+        q: "What is an AprilTag?",
+        aside: "",
+        choices: [
+          "Black and white square markers placed around the FRC field. Each tag has its own ID number.",
+          "Our motors with built-in controllers.",
+          "The Driver Station center indicators.",
+          "A GitHub repository."
+        ],
+        answer: 0,
+        tip: "AprilTags are the black and white square markers placed around the FRC field. Each tag has its own ID number, and we know exactly where every tag sits on the field. When a camera on the robot sees a tag, our code can work out how far away it is and at what angle, which tells the robot where it is on the field."
       }
     ];
 
@@ -690,7 +799,7 @@
     }
 
     function start() {
-      deck = shuffle(QUESTIONS).slice(0, 12);
+      deck = shuffle(QUESTIONS);
       i = 0;
       score = 0;
       streak = 0;
@@ -716,7 +825,8 @@
 
       $("qLabel").textContent = `q ${i + 1} of ${deck.length}`;
       $("qText").textContent = item.q;
-      $("qAside").textContent = item.aside;
+      $("qAside").textContent = item.aside || "";
+      $("qAside").style.display = item.aside ? "" : "none";
       $("bar").style.width = `${(i / deck.length) * 100}%`;
 
       const note = $("note");
@@ -753,7 +863,7 @@
         const bonus = 100 + Math.min(streak - 1, 4) * 25;
         score += bonus;
         note.className = "note show";
-        note.textContent = `heck yeah (+${bonus}) — ${item.tip}`;
+        note.textContent = `(+${bonus}) ${item.tip}`;
       } else {
         btn.classList.add("no");
         buttons[item.answer].classList.add("yes");
@@ -762,7 +872,7 @@
         });
         streak = 0;
         note.className = "note show bad";
-        note.textContent = `oop — ${item.tip}`;
+        note.textContent = item.tip;
       }
 
       $("pts").textContent = `${score} pts`;
@@ -790,21 +900,21 @@
 
       let title, blurb, stamp;
       if (pct === 100) {
-        title = "battery strapped legend";
-        blurb = "perfect. go green up those comms like you own the pit.";
-        stamp = "100% !!";
+        title = "all green";
+        blurb = "Indicators fully green. You know the Controls slides.";
+        stamp = "100%";
       } else if (pct >= 80) {
-        title = "almost a senior mentor";
-        blurb = "super solid. skim the oopsies and you're set.";
-        stamp = "nice job";
+        title = "comms look good";
+        blurb = "Solid — review any misses against the slides.";
+        stamp = "nice";
       } else if (pct >= 55) {
-        title = "still booting…";
-        blurb = "radio takes ~2 minutes. you might too. try again!!";
+        title = "give it about 2 minutes";
+        blurb = "The radio takes the longest to boot. Try again after a slide skim.";
         stamp = "keep going";
       } else {
-        title = "comms… blinking?";
-        blurb = "flip back through the slides, then mash \"do it again.\"";
-        stamp = "retry time";
+        title = "check comms first";
+        blurb = "Go back through the Controls slides, then try again.";
+        stamp = "retry";
       }
       $("title").textContent = title;
       $("blurb").textContent = blurb;
