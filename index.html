@@ -491,287 +491,95 @@
   </div>
 
   <script>
-    // Facts only from the Controls section of 26/27 Start Meeting Updates.
+    // 15 beginner questions — facts only from the Controls section.
     const QUESTIONS = [
       {
         q: "What is Controls on our team?",
         aside: "",
         choices: [
-          "Controls is the brains of the robot",
-          "Controls only builds the frame",
-          "Controls only does scouting",
-          "Controls only designs the bumper"
+          "The brains of the robot — Coding and Electrical",
+          "Only building the frame",
+          "Only scouting matches",
+          "Only designing stickers"
         ],
         answer: 0,
-        tip: "Controls is the brains of the robot. On our team, Controls owns two things: Coding and Electrical."
+        tip: "Controls is the brains of the robot. Controls owns Coding and Electrical."
       },
       {
-        q: "On our team, Controls owns two things. What are they?",
+        q: "What language is the robot’s code written in?",
         aside: "",
-        choices: [
-          "Coding and Electrical",
-          "Mechanical and Design",
-          "Strategy and Media",
-          "Scouting and Awards"
-        ],
+        choices: ["Java", "Python", "Scratch", "HTML"],
         answer: 0,
-        tip: "Coding and Electrical."
+        tip: "All of the robot’s code is written in Java."
       },
       {
-        q: "All of the robot’s code is written in…",
-        aside: "",
-        choices: ["Python", "C++", "Java", "JavaScript"],
-        answer: 2,
-        tip: "All of the robot’s code, written in Java."
-      },
-      {
-        q: "This training covers four things. Which set matches the slides?",
+        q: "This training covers four things. Which list is right?",
         aside: "",
         choices: [
           "Tools, Parts, Electrical rules, Elastic",
-          "Battery, Driver Station, Comms, Elastic",
-          "VS Code, GitHub, WPILib, AprilTags",
-          "Crimping, Soldering, Painting, Scouting"
+          "Cooking, Art, Music, Sports",
+          "Only coding quizzes",
+          "Only driving practice"
         ],
         answer: 0,
-        tip: "1 Tools — what Controls uses to build and fix wiring. 2 Parts — what’s on the robot and what each part does. 3 Electrical rules — how everyone on the team stays safe around the robot. 4 Elastic — seeing camera feeds and sensor values live."
+        tip: "Tools, Parts, Electrical rules, and Elastic."
       },
       {
-        q: "What do wire strippers do?",
+        q: "What does a multimeter help you do?",
         aside: "",
         choices: [
-          "Remove insulation from the end of a wire. Use the notch that matches the wire size so you don’t nick the copper.",
-          "Cut wire and zip ties cleanly.",
-          "Measure voltage and check if a wire is connected end to end.",
-          "Crimp Anderson Powerpole contacts."
+          "Measure voltage and find a broken connection",
+          "Cut zip ties",
+          "Find AprilTags",
+          "Write Java code"
         ],
         answer: 0,
-        tip: "Wire strippers remove insulation from the end of a wire. Use the notch that matches the wire size so you don’t nick the copper."
-      },
-      {
-        q: "What are flush cutters for?",
-        aside: "",
-        choices: [
-          "Cut wire and zip ties cleanly. When trimming zip ties, point the blade away from other wires.",
-          "Remove insulation from the end of a wire.",
-          "Measure voltage.",
-          "Crimp Molex SL pins."
-        ],
-        answer: 0,
-        tip: "Flush cutters cut wire and zip ties cleanly. When trimming zip ties, point the blade away from other wires."
-      },
-      {
-        q: "What is a multimeter used for?",
-        aside: "",
-        choices: [
-          "Measures voltage and checks if a wire is connected end to end. Our main tool for finding a broken connection.",
-          "Crimps ferrules onto stranded wire.",
-          "Adds an extra CAN bus.",
-          "Finds AprilTags on the field."
-        ],
-        answer: 0,
-        tip: "Multimeter measures voltage and checks if a wire is connected end to end. Our main tool for finding a broken connection."
-      },
-      {
-        q: "What does the Molex SL crimper do?",
-        aside: "",
-        choices: [
-          "Crimps the small pins in CAN connectors. SystemCore uses Molex SL for CAN starting in 2027.",
-          "Crimps Anderson Powerpole contacts for motor and device power.",
-          "Squeezes a metal sleeve onto stranded wire for the PDH or a Wago.",
-          "Removes insulation from wire ends."
-        ],
-        answer: 0,
-        tip: "Molex SL crimper crimps the small pins in CAN connectors. SystemCore uses Molex SL for CAN starting in 2027."
-      },
-      {
-        q: "What does the Powerpole crimper do?",
-        aside: "",
-        choices: [
-          "Crimps Anderson Powerpole contacts, the red and black connectors we use for motor and device power.",
-          "Crimps the small pins in CAN connectors.",
-          "Measures if a wire is connected end to end.",
-          "Cuts zip ties."
-        ],
-        answer: 0,
-        tip: "Powerpole crimper crimps Anderson Powerpole contacts, the red and black connectors we use for motor and device power."
-      },
-      {
-        q: "What does a ferrule crimper do?",
-        aside: "",
-        choices: [
-          "Squeezes a metal sleeve onto stranded wire so it doesn’t fray when it goes into the PDH or a Wago.",
-          "Crimps Anderson Powerpole contacts.",
-          "Crimps Molex SL CAN pins.",
-          "Connects the robot to the Driver Station laptop."
-        ],
-        answer: 0,
-        tip: "Ferrule crimper squeezes a metal sleeve onto stranded wire so it doesn’t fray when it goes into the PDH or a Wago."
+        tip: "A multimeter measures voltage and checks if a wire is connected end to end. It’s our main tool for finding a broken connection."
       },
       {
         q: "What is the roboRIO?",
         aside: "",
         choices: [
-          "The robot’s main computer. It runs our code and talks to every motor and sensor. SystemCore replaces it in 2027.",
-          "The robot’s WiFi. It connects the robot to the Driver Station laptop.",
-          "Adds an extra, faster CAN bus.",
-          "The Power Distribution Hub."
+          "The robot’s main computer",
+          "The robot’s WiFi radio",
+          "A motor",
+          "The battery"
         ],
         answer: 0,
-        tip: "roboRIO — the robot’s main computer. It runs our code and talks to every motor and sensor. SystemCore replaces it in 2027."
+        tip: "The roboRIO is the robot’s main computer. It runs our code and talks to every motor and sensor."
       },
       {
-        q: "What does the radio do?",
+        q: "What does the PDH do?",
         aside: "",
         choices: [
-          "The robot’s WiFi. It connects the robot to the Driver Station laptop.",
-          "Runs our code and talks to every motor and sensor.",
-          "Splits battery power out to every device.",
-          "Tells the robot which way it’s facing."
+          "Splits battery power out to every device",
+          "Takes photos of the field",
+          "Stores code on GitHub",
+          "Turns WiFi on the laptop"
         ],
         answer: 0,
-        tip: "Radio — the robot’s WiFi. It connects the robot to the Driver Station laptop."
+        tip: "PDH = Power Distribution Hub. It splits battery power out to every device, each on its own breaker or fuse."
       },
       {
-        q: "What does a CANivore do?",
+        q: "What is special about a Kraken motor?",
         aside: "",
         choices: [
-          "Adds an extra, faster CAN bus so our CTRE motors and sensors can send data more often.",
-          "Powers everything as the 12V on/off switch.",
-          "Finds AprilTags so the robot knows where it is on the field.",
-          "Removes insulation from wire ends."
+          "The controller is built in — it only needs power and CAN",
+          "It needs a separate Spark MAX always",
+          "It has no wires",
+          "It only works with Python"
         ],
         answer: 0,
-        tip: "CANivore adds an extra, faster CAN bus so our CTRE motors and sensors can send data more often."
-      },
-      {
-        q: "What do the battery and main breaker do?",
-        aside: "",
-        choices: [
-          "The 12V battery powers everything. The main breaker is the robot’s on/off switch and cuts power if too much current flows.",
-          "They find AprilTags on the field.",
-          "They crimp Powerpole contacts.",
-          "They store code in a repository."
-        ],
-        answer: 0,
-        tip: "The 12V battery powers everything. The main breaker is the robot’s on/off switch and cuts power if too much current flows."
-      },
-      {
-        q: "What is the PDH?",
-        aside: "",
-        choices: [
-          "Power Distribution Hub. Splits battery power out to every device, each on its own breaker or fuse.",
-          "The robot’s main computer.",
-          "A gyro that tells which way the robot is facing.",
-          "Our vision camera."
-        ],
-        answer: 0,
-        tip: "PDH — Power Distribution Hub. Splits battery power out to every device, each on its own breaker or fuse."
-      },
-      {
-        q: "What do breakers and fuses on each PDH channel do?",
-        aside: "",
-        choices: [
-          "If a motor pulls too much current, it trips instead of the wire overheating.",
-          "They connect the robot to the Driver Station.",
-          "They find AprilTags.",
-          "They write autonomous routines."
-        ],
-        answer: 0,
-        tip: "Each PDH channel has one. If a motor pulls too much current, it trips instead of the wire overheating."
-      },
-      {
-        q: "What is a Kraken X60?",
-        aside: "",
-        choices: [
-          "Our main motor. The controller is built in, so it only needs power and CAN. Used for swerve and heavy mechanisms.",
-          "A smaller, lighter Kraken for mechanisms that don’t need as much power, like an intake.",
-          "REV’s motor that needs a separate Spark MAX controller.",
-          "A gyro that tells which way the robot is facing."
-        ],
-        answer: 0,
-        tip: "Kraken X60 — our main motor. The controller is built in, so it only needs power and CAN. Used for swerve and heavy mechanisms."
-      },
-      {
-        q: "What is a Kraken X44?",
-        aside: "",
-        choices: [
-          "A smaller, lighter Kraken for mechanisms that don’t need as much power, like an intake.",
-          "Our main motor for swerve and heavy mechanisms.",
-          "REV’s motor that needs a separate Spark MAX.",
-          "A light beam across a gap for game pieces."
-        ],
-        answer: 0,
-        tip: "Kraken X44 — a smaller, lighter Kraken for mechanisms that don’t need as much power, like an intake."
-      },
-      {
-        q: "How is a NEO + Spark MAX different from a Kraken?",
-        aside: "",
-        choices: [
-          "Unlike a Kraken, it needs a separate Spark MAX controller. We still use these for testing.",
-          "It only needs power and CAN with the controller built in.",
-          "It is our vision camera.",
-          "It is the robot’s WiFi."
-        ],
-        answer: 0,
-        tip: "NEO + Spark MAX — REV’s motor. Unlike a Kraken, it needs a separate Spark MAX controller. We still use these for testing."
-      },
-      {
-        q: "What is a Pigeon 2?",
-        aside: "",
-        choices: [
-          "A gyro. Tells the robot which way it’s facing, so the driver can drive relative to the field.",
-          "Sits on each swerve module and tells which way that wheel is pointing.",
-          "Our vision camera that finds AprilTags.",
-          "A light beam across a gap."
-        ],
-        answer: 0,
-        tip: "Pigeon 2 — a gyro. Tells the robot which way it’s facing, so the driver can drive relative to the field."
-      },
-      {
-        q: "What does a CANcoder do?",
-        aside: "",
-        choices: [
-          "Sits on each swerve module and tells the code which way that wheel is pointing.",
-          "Tells the robot which way it’s facing on the field.",
-          "Finds AprilTags so the robot knows where it is.",
-          "Splits battery power to every device."
-        ],
-        answer: 0,
-        tip: "CANcoder sits on each swerve module and tells the code which way that wheel is pointing."
-      },
-      {
-        q: "What is a Limelight?",
-        aside: "",
-        choices: [
-          "Our vision camera. It finds AprilTags so the robot knows where it is on the field.",
-          "A gyro for field-relative driving.",
-          "A light beam that detects game pieces.",
-          "An extra, faster CAN bus."
-        ],
-        answer: 0,
-        tip: "Limelight — our vision camera. It finds AprilTags so the robot knows where it is on the field."
-      },
-      {
-        q: "What is a beam break?",
-        aside: "",
-        choices: [
-          "A light beam across a gap. When a game piece blocks it, the code knows the piece is inside.",
-          "The robot’s WiFi connection to the Driver Station.",
-          "A motor controller built into a Kraken.",
-          "Yellow and green CAN wires."
-        ],
-        answer: 0,
-        tip: "Beam break — a light beam across a gap. When a game piece blocks it, the code knows the piece is inside."
+        tip: "Kraken X60 is our main motor. The controller is built in, so it only needs power and CAN."
       },
       {
         q: "What does a blinking RSL mean?",
         aside: "",
         choices: [
-          "The robot is enabled and can move. Hands out, no exceptions.",
-          "The robot is powered but disabled.",
-          "No power.",
-          "Comms are fully green."
+          "The robot is enabled and can move — hands out!",
+          "The robot has no power",
+          "The robot is powered but disabled",
+          "Elastic is open"
         ],
         answer: 0,
         tip: "RSL blinking: the robot is enabled and can move. Hands out, no exceptions."
@@ -780,193 +588,85 @@
         q: "What does a solid RSL mean?",
         aside: "",
         choices: [
-          "The robot is powered but disabled.",
-          "The robot is enabled and can move.",
-          "No power.",
-          "A CAN wire came loose."
+          "The robot is powered but disabled",
+          "The robot is enabled and can move",
+          "No power",
+          "GitHub is synced"
         ],
         answer: 0,
-        tip: "RSL solid: the robot is powered but disabled."
+        tip: "RSL solid: the robot is powered but disabled. RSL off: no power."
       },
       {
-        q: "What does RSL off mean?",
+        q: "Before you work on the robot, you should…",
         aside: "",
         choices: [
-          "No power.",
-          "The robot is enabled and can move.",
-          "The robot is powered but disabled.",
-          "Elastic is connected."
+          "Open the main breaker or unplug the battery",
+          "Trust that it’s disabled and start wrenching",
+          "Only open Elastic",
+          "Pull connectors out by the wires"
         ],
         answer: 0,
-        tip: "RSL off: no power."
+        tip: "Open the main breaker or unplug the battery. Don’t trust “it’s disabled.” If someone says “Enabling!”, step back."
       },
       {
-        q: "Before working on the robot, you should…",
+        q: "What do yellow and green wires mean?",
         aside: "",
         choices: [
-          "Open the main breaker or unplug the battery. Don’t trust “it’s disabled.”",
-          "Only check that the RSL is solid.",
-          "Only say “Enabling!” and keep working.",
-          "Unplug something to make room."
+          "CAN — the data line motors talk on",
+          "Power",
+          "Ground",
+          "They don’t matter"
         ],
         answer: 0,
-        tip: "Before working on the robot, open the main breaker or unplug the battery. Don’t trust “it’s disabled.” If someone says “Enabling!”, step back."
+        tip: "Red = power. Black = ground. Yellow and green = CAN. If one CAN wire comes loose, a whole chain of motors can stop."
       },
       {
-        q: "Wire colors: what do yellow and green mean?",
+        q: "How do you unplug a connector the right way?",
         aside: "",
         choices: [
-          "CAN, the data line all the motors talk on. If one CAN wire comes loose, a whole chain of motors can stop.",
-          "Power.",
-          "Ground.",
-          "Only signal wires that don’t matter."
+          "Grip the connector itself — never pull by the wires",
+          "Yank the wires hard",
+          "Cut the wires first",
+          "Unplug stuff to make room without asking"
         ],
         answer: 0,
-        tip: "Red: power. Black: ground. Yellow and green: CAN, the data line all the motors talk on. If one CAN wire comes loose, a whole chain of motors can stop. Thick wires carry big current and thin wires carry signals. Both matter."
+        tip: "Never pull a connector out by its wires. Grip the connector itself. Ask Controls before unplugging something to “make room.”"
       },
       {
-        q: "How should you unplug a connector?",
+        q: "Why cover electronics before drilling or cutting on the robot?",
         aside: "",
         choices: [
-          "Never pull a connector out by its wires. Grip the connector itself.",
-          "Pull hard on the wires.",
-          "Cut the zip ties next to wires with anything sharp.",
-          "Unplug something to make room without asking."
+          "Metal shavings can short and destroy electronics",
+          "It makes the robot look nicer",
+          "GitHub requires it",
+          "It helps the Limelight"
         ],
         answer: 0,
-        tip: "Never pull a connector out by its wires. Grip the connector itself. Don’t cut zip ties next to wires with anything sharp — use flush cutters pointed away from the wire. Don’t unplug something to “make room.” Ask Controls. Keep wires away from moving parts, gears, chains and sharp metal edges."
-      },
-      {
-        q: "Why are metal shavings dangerous?",
-        aside: "",
-        choices: [
-          "Never drill, cut or file on the robot while the electronics are uncovered. Metal shavings inside a motor controller or the PDH can short it out and destroy it.",
-          "They only affect the bumper fabric.",
-          "They improve CAN speed.",
-          "They help the Limelight find AprilTags."
-        ],
-        answer: 0,
-        tip: "Never drill, cut or file on the robot while the electronics are uncovered. Cover the electrical board first, or take the part off the robot to work on it. Metal shavings inside a motor controller or the PDH can short it out and destroy it."
-      },
-      {
-        q: "If you’re changing a mechanism that has wires, motors or sensors…",
-        aside: "",
-        choices: [
-          "Tell Controls before you move, remove or redesign it.",
-          "Fix any wiring issues yourself.",
-          "Ignore frayed wires if the robot still drives.",
-          "Unplug things to make room without asking."
-        ],
-        answer: 0,
-        tip: "Changing a mechanism? If the part has wires, motors or sensors on it, tell Controls before you move, remove or redesign it. See something, say something: report frayed or cut wires, loose connectors, a burning smell, anything hot, or a breaker that keeps tripping. Don’t fix it yourself, and don’t ignore it."
+        tip: "Never drill, cut or file on the robot while the electronics are uncovered. Metal shavings inside a motor controller or the PDH can short it out and destroy it."
       },
       {
         q: "What is Elastic?",
         aside: "",
         choices: [
-          "Our dashboard. It shows camera feeds and live sensor values from the robot while it runs.",
-          "The IDE where you write the robot’s files.",
-          "Where the files are stored in a repository.",
-          "The library our code uses to talk to FRC hardware."
+          "Our dashboard for camera feeds and live sensor values",
+          "The battery charger",
+          "A type of motor",
+          "The main breaker"
         ],
         answer: 0,
         tip: "Elastic is our dashboard. It shows camera feeds and live sensor values from the robot while it runs."
       },
       {
-        q: "How do you open Elastic?",
+        q: "If a camera or value is blank in Elastic, what do you check first?",
         aside: "",
         choices: [
-          "Set Dashboard Type to Elastic in the Driver Station Setup tab so it launches with the Driver Station. You can also open it from the WPILib Command Palette in VS Code.",
-          "Only by unplugging the battery.",
-          "Only from GitHub Desktop.",
-          "By drilling near the electronics board."
+          "Comms — Elastic can only show what the robot is sending",
+          "Whether the room lights are pretty",
+          "GitHub Desktop",
+          "The bumper color"
         ],
         answer: 0,
-        tip: "Set Dashboard Type to Elastic in the Driver Station Setup tab so it launches with the Driver Station. You can also open it from the WPILib Command Palette in VS Code."
-      },
-      {
-        q: "If a camera or value is blank in Elastic…",
-        aside: "",
-        choices: [
-          "Check comms first. Elastic can only show what the robot is sending.",
-          "Drill near the PDH.",
-          "Pull connectors out by their wires.",
-          "Ignore it."
-        ],
-        answer: 0,
-        tip: "If a camera or value is blank, check comms first. Elastic can only show what the robot is sending. Once the Driver Station is connected, Elastic finds the robot on its own."
-      },
-      {
-        q: "How is robot code organized?",
-        aside: "",
-        choices: [
-          "Split into subsystems — files that each control one part of the robot. Robot.java is the main file.",
-          "One file with no subsystems.",
-          "Only inside Elastic widgets.",
-          "Only on the PDH."
-        ],
-        answer: 0,
-        tip: "Robot code is split into subsystems: files that each control one part of the robot, like the shooter or the climber. The drivetrain (our swerve base) is just another subsystem. Robot.java is the main file. It defines the robot’s overall behavior and is where the subsystems get called on to actually do things."
-      },
-      {
-        q: "What apps do you need/use?",
-        aside: "",
-        choices: [
-          "VS Code (IDE), GitHub (repository), WPILib (library for FRC hardware)",
-          "Word, Dropbox, Excel",
-          "Elastic only",
-          "Multimeter only"
-        ],
-        answer: 0,
-        tip: "We code in Java. VS Code — the IDE where you write the robot’s files. GitHub — where the files are stored in a repository (beginners can use GitHub Desktop). WPILib — the library our code uses to talk to FRC hardware like motors, sensors and the Driver Station."
-      },
-      {
-        q: "What is GitHub?",
-        aside: "",
-        choices: [
-          "A web-based platform that we use to store, share and collaborate on code.",
-          "The robot’s main computer.",
-          "Our dashboard for camera feeds.",
-          "The Power Distribution Hub."
-        ],
-        answer: 0,
-        tip: "GitHub is a web-based platform that we use to store, share and collaborate on code. Our repositories live on this website. Some are public and some are private. Controls members are required to use GitHub to save the changes they make to code."
-      },
-      {
-        q: "Why do we even use GitHub?",
-        aside: "",
-        choices: [
-          "So everyone’s laptops work from one shared repository; every change is saved in a history; code doesn’t get lost.",
-          "It replaces the roboRIO in 2027.",
-          "It is the robot’s on/off switch.",
-          "It finds AprilTags."
-        ],
-        answer: 0,
-        tip: "Most FRC teams, including us, use GitHub so that everyone’s laptops work from one shared repository. Every change is saved in a history, so if something breaks we can go back to a version that worked. Code doesn’t get lost when a laptop dies or someone forgets to save, and everyone’s code fits together properly. We like GitHub."
-      },
-      {
-        q: "What is PID control, according to the slides?",
-        aside: "",
-        choices: [
-          "It lets a motor move a mechanism to a certain position and hold it there, or spin at a certain speed.",
-          "It is the Power Distribution Hub.",
-          "It is yellow and green CAN wire.",
-          "It is the main breaker."
-        ],
-        answer: 0,
-        tip: "PID control lets a motor move a mechanism to a certain position and hold it there, or spin at a certain speed."
-      },
-      {
-        q: "What is an AprilTag?",
-        aside: "",
-        choices: [
-          "Black and white square markers placed around the FRC field. Each tag has its own ID number.",
-          "Our main motor with a built-in controller.",
-          "The Driver Station Setup tab.",
-          "A ferrule on stranded wire."
-        ],
-        answer: 0,
-        tip: "AprilTags are the black and white square markers placed around the FRC field. Each tag has its own ID number, and we know exactly where every tag sits on the field. When a camera on the robot sees a tag, our code can work out how far away it is and at what angle, which tells the robot where it is on the field."
+        tip: "Check comms first. Elastic can only show what the robot is sending."
       }
     ];
 
